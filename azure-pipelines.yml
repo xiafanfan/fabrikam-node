@@ -52,14 +52,16 @@ stages:
             - script: echo initialize, cleanup, backup, install certs
           deploy:
             steps:
-            - task: Bash@3
+            - task: NodeTool@0
               inputs:
-                targetType: 'inline'
-                script: |
-                  # Modify deployment script based on the app type
-                  echo "Starting deployment script run"
-                  npm install
-                  npm start
+                versionSpec: '10.x'
+              displayName: 'Install Node.js'
+            - script: |
+                npm install
+                npm start
+                cd ~/test1/fabrikam-node
+                git pull
+
           routeTraffic:
             steps:
             - script: echo routing traffic
